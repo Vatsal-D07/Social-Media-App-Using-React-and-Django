@@ -22,9 +22,10 @@ function RegisterAndLogout(){
 
 
 function App() {
+  const cliendID=import.meta.env.VITE_APP_GOOGLE_CLIENT_ID
   return (
     <BrowserRouter>
-      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+      <GoogleOAuthProvider clientId={cliendID}>
       <Routes>
         <Route
           path="/"
