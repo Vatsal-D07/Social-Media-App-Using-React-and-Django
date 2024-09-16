@@ -6,12 +6,21 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .utils import *
-from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework_simplejwt.tokens import AccessToken,RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
+
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+    
     
     
 
@@ -59,8 +68,9 @@ class LoginWithGoogle(APIView):
             user_email=id_token['email']
             user_name=id_token['name']
             user=authenticate_or_create_user(user_name,user_email)
-            token = AccessToken.for_user(user)
-            return Response({'access_token':str(token),'username':user_name})
+            user_id=user.pk
+            token = RefreshToken.for_user(user)
+            return Response({'access_token':str(token.access_token),'refresh_token':str(token),'username':user_name,'user_id':user_id})
         
             
             

@@ -34,11 +34,12 @@ const Create = () => {
     }
 
     try {
-      const response = await AxiosInstance.post('/posts/', formData, {
+      const response = await AxiosInstance.post('/tweet/tweets/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
+      console.log(response.data)
       setSuccessMessage('Post created successfully!');
       setText('');
       setImage(null);
