@@ -4,6 +4,8 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import AxiosInstance from "./Axios";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import '../App.css'; // Assuming the CSS is in this file
+import { useGoogleLogin } from '@react-oauth/google'
+import GoogleButton from 'react-google-button'
 
 export default function FormRegLog({ route, method }) {
     const [username, setUsername] = useState("");
@@ -17,6 +19,37 @@ export default function FormRegLog({ route, method }) {
 
     const navigate = useNavigate();
     const name = method === "login" ? "Login" : "Register";
+
+
+
+    // GOOGLE LOGIN
+    const handleGoogleLoginSuccess= async (codeResponse) => {
+        const authorizationCode = codeResponse.code;
+        try {
+          const response = await AxiosInstance.post('/account/login-with-google/', {
+            code: authorizationCode,  // Send the authorization code as a JSON object
+          });
+      
+          const { access_token, username } = response.data;  // Extract data from response
+      
+          // Store access token and username in local storage
+          localStorage.setItem(ACCESS_TOKEN, access_token);
+          localStorage.setItem('username', username);
+      
+          // Navigate to the home page after successful login
+          navigate('/');
+        //   window.location.reload();  // Optionally reload the page
+      
+        } catch (error) {
+          console.error('Error exchanging authorization code:', error);  // Handle errors
+        }
+      };
+      
+    const g_login=useGoogleLogin({
+        onSuccess:handleGoogleLoginSuccess,
+        flow:'auth-code'
+    });
+
 
     const handleSubmit = async (e) => {
         setLoading(true);
@@ -151,6 +184,7 @@ export default function FormRegLog({ route, method }) {
                     </div>
                     <div className="flex justify-center mt-4">
                         <button
+                            onClick={g_login}
                             type="button"
                             className="w-full py-3 px-4 bg-gray-700 text-white font-bold rounded-xl shadow-lg flex items-center justify-center space-x-3 hover:bg-gray-600 transition duration-300"
                         >
@@ -160,7 +194,9 @@ export default function FormRegLog({ route, method }) {
                                 <path d="M19.8342 20.9978C22.0292 18.9503 23.4545 15.9019 23.4545 12.0017C23.4545 11.2352 23.3809 10.4989 23.2453 9.79102H12V14.4528H18.4364C18.1188 16.0119 17.2663 17.2194 16.0407 18.0108L19.8342 20.9978Z" fill="#4A90E2"/>
                                 <path d="M5.27698 14.2663C5.03833 13.5547 4.90909 12.7922 4.90909 11.9984C4.90909 11.2167 5.03444 10.4652 5.2662 9.76294L1.23999 6.64844C0.436587 8.25884 0 10.0738 0 11.9984C0 13.918 0.444781 15.7286 1.23746 17.3334L5.27698 14.2663Z" fill="#FBBC05"/>
                             </svg>
-                            <span>Sign in with Google</span>
+                            <span>
+                                Sign in with Google
+                            </span>
                         </button>
                     </div>
                     <div className="mt-6 text-center">

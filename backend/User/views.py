@@ -4,7 +4,9 @@ from rest_framework import generics,permissions
 from .serializers import UserSerializer,PasswordResetSerializer,SetNewPasswordSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-
+from rest_framework.views import APIView
+from .utils import *
+from rest_framework_simplejwt.tokens import AccessToken
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -37,3 +39,29 @@ class PasswordResetConfirmView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"message": "Password has been reset successfully."})
+
+
+# Google Login View
+def authenticate_or_create_user(name,email):
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        user=User.objects.create_user(username=name,email=email)
+        
+    return user
+
+class LoginWithGoogle(APIView):
+    permission_classes=[AllowAny]
+    def post(self,request):
+        if 'code' in request.data.keys():
+            code=request.data['code']
+            id_token = get_id_token_with_code(code)
+            user_email=id_token['email']
+            user_name=id_token['name']
+            user=authenticate_or_create_user(user_name,user_email)
+            token = AccessToken.for_user(user)
+            return Response({'access_token':str(token),'username':user_name})
+        
+            
+            
+        return Response('OK')

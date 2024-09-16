@@ -7,6 +7,8 @@ import Home from './components/Home'
 import Register from './components/Register';
 import PasswordReset from './components/PasswordReset';
 import PasswordResetConfirm from './components/PasswordResetConfirm';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 
 function Logout(){
   localStorage.clear()
@@ -22,6 +24,7 @@ function RegisterAndLogout(){
 function App() {
   return (
     <BrowserRouter>
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
       <Routes>
         <Route
           path="/"
@@ -40,6 +43,7 @@ function App() {
         <Route path="/register" element={<RegisterAndLogout />} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
+      </GoogleOAuthProvider>
     </BrowserRouter>
   )
 }

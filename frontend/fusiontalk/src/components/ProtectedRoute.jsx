@@ -8,6 +8,7 @@ function ProtectedRoute({ children }) {
     const [isAuthorized, setIsAuthorized] = useState(null);
 
     useEffect(() => {
+        console.log('Checking authorization...');
         auth().catch(() => setIsAuthorized(false))
     }, [])
 
@@ -30,7 +31,9 @@ function ProtectedRoute({ children }) {
     };
 
     const auth = async () => {
+        console.log("Hello")
         const token = localStorage.getItem(ACCESS_TOKEN);
+        console.log(token)
         if (!token) {
             setIsAuthorized(false);
             return;
