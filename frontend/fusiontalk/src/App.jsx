@@ -3,16 +3,17 @@ import { Routes,Route,Navigate, BrowserRouter } from 'react-router-dom';
 import Login from './components/Login'
 import NotFound from './components/NotFound';
 import ProtectedRoute from './components/ProtectedRoute'
-import Home from './components/Home'
+// import Home from './components/Home'
 import Register from './components/Register';
 import PasswordReset from './components/PasswordReset';
 import PasswordResetConfirm from './components/PasswordResetConfirm';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-
+import HomePage from './pages/HomePage';
+import { ACCESS_TOKEN } from './constants';
 
 function Logout(){
-  localStorage.clear()
-  return <Navigate t0="/login"/>
+  localStorage.clear()      
+  return <Navigate to="/login"/>
 }
 
 function RegisterAndLogout(){
@@ -22,16 +23,18 @@ function RegisterAndLogout(){
 
 
 function App() {
-  const cliendID=import.meta.env.VITE_APP_GOOGLE_CLIENT_ID
+  const cliendID=import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
+  const isLoggedIn = !!localStorage.getItem(ACCESS_TOKEN);
+
   return (
     <BrowserRouter>
       <GoogleOAuthProvider clientId={cliendID}>
       <Routes>
         <Route
-          path="/"
+          path="/app/*"
           element={
             <ProtectedRoute>
-              <Home />
+              <HomePage/>
             </ProtectedRoute>
           }
         />
@@ -42,6 +45,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />
+
+       
+        {/* Redirect to /app if logged in */}
+        <Route path="/" element={isLoggedIn ? <Navigate to="/app" /> : <Login />} />
+
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
       </GoogleOAuthProvider>

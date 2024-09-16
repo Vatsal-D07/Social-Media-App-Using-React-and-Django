@@ -37,7 +37,7 @@ export default function FormRegLog({ route, method }) {
           localStorage.setItem('username', username);
       
           // Navigate to the home page after successful login
-          navigate('/');
+          navigate('/app');
         //   window.location.reload();  // Optionally reload the page
       
         } catch (error) {
@@ -72,7 +72,7 @@ export default function FormRegLog({ route, method }) {
             if (method === "login") {
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-                navigate('/');
+                navigate('/app');
             } else {
                 navigate("/login");
             }
@@ -98,7 +98,7 @@ export default function FormRegLog({ route, method }) {
                         <input
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            className="mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition duration-300"
+                            className="text-white mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition duration-300"
                             placeholder="Enter your username"
                             required
                         />
@@ -109,7 +109,7 @@ export default function FormRegLog({ route, method }) {
                             <input
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition duration-300"
+                                className="text-white mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition duration-300"
                                 placeholder="Enter your email"
                                 type="email"
                                 required
@@ -122,7 +122,7 @@ export default function FormRegLog({ route, method }) {
                             <input
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition duration-300 pr-12"
+                                className="text-white mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition duration-300 pr-12"
                                 placeholder="Enter your password"
                                 type={showPassword ? "text" : "password"}
                                 required
@@ -143,7 +143,7 @@ export default function FormRegLog({ route, method }) {
                                 <input
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
-                                    className="mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition duration-300 pr-12"
+                                    className="text-white mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition duration-300 pr-12"
                                     placeholder="Confirm your password"
                                     type={showConfirmPassword ? "text" : "password"}
                                     required
@@ -167,7 +167,7 @@ export default function FormRegLog({ route, method }) {
                             />
                             <label htmlFor="remember" className="ml-2 text-sm text-gray-400">Remember me</label>
                         </div>
-                        <button type="button" className="text-sm text-purple-500 hover:underline">Forgot password?</button>
+                        <button type="button" onClick={()=>{navigate('/reset-password')}} className="text-sm text-purple-500 hover:underline">Forgot password?</button>
                     </div>
                     <div className="mt-4">
                         <button
