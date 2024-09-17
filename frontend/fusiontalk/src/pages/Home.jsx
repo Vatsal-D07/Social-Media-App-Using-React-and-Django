@@ -1,38 +1,46 @@
 // src/pages/Home.jsx
-import React from 'react';
+import {React,useEffect,useState }from 'react';
 import Post from '../components/Post';
 import Suggestions from '../components/Suggestions';
+import AxiosInstance from '../components/Axios';
 
 const Home = () => {
-  const posts = [
-    {
-      id: 1,
-      profilePic: '/path/to/profile1.jpg',
-      username: 'john_doe',
-      postImage: '/path/to/post1.jpg',
-      postText: 'Enjoying a beautiful day!',
-    },
-    {
-      id: 2,
-      profilePic: '/path/to/profile2.jpg',
-      username: 'jane_doe',
-      postImage: '/path/to/post2.jpg',
-      postText: 'Had a great time at the park.',
-    },
-    // Add more posts as needed
-  ];
+  const [posts, setPosts] = useState([]);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await AxiosInstance.get('/tweet/tweets/');
+        console.log(response.data)
+        setPosts(response.data); // Assuming the data is an array of tweet objects
+      } catch (err) {
+        console.error('Error fetching tweets:', err.response ? err.response.data : err.message);
+        setError('Failed to load tweets');
+      }
+    };
+
+    fetchPosts();
+  }, []); // Empty array means this will run once when the component mounts
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
 
   return (
+    
     <div className="flex justify-between">
       {/* Left - Posts Section */}
       <div className="w-full md:w-2/3 lg:w-3/5 p-4">
         {posts.map(post => (
           <Post
-            key={post.id}
-            profilePic={post.profilePic}
-            username={post.username}
-            postImage={post.postImage}
-            postText={post.postText}
+            id={post.id}
+            profilePic={post.image}
+            username={post.user}
+            postImage={post.image}
+            postText={post.text}
+            likeCount={post.likes}
           />
         ))}
       </div>

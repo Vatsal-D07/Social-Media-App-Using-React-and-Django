@@ -26,13 +26,14 @@ const Create = () => {
       setError('Please add some text or upload an image to create a post.');
       return;
     }
-
+    
     const formData = new FormData();
+
     formData.append('text', text);
     if (image) {
       formData.append('image', image);
     }
-
+    
     try {
       const response = await AxiosInstance.post('/tweet/tweets/', formData, {
         headers: {

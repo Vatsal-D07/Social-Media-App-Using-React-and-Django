@@ -1,18 +1,37 @@
-// src/components/Post.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HeartIcon as HeartIconOutline, BookmarkIcon as BookmarkIconOutline } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid, BookmarkIcon as BookmarkIconSolid } from '@heroicons/react/24/solid';
 import { ChatBubbleOvalLeftIcon, ShareIcon } from '@heroicons/react/24/outline';
 import { Transition } from '@headlessui/react'; // For smooth transitions
+import AxiosInstance from './Axios';
 
-const Post = ({ profilePic, username, postImage, postText }) => {
+const Post = ({ id, profilePic, username, postImage, postText, likeCount }) => {
   // State to toggle between filled and outlined icons
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [likes, setLikes] = useState(likeCount);
   const [commentsOpen, setCommentsOpen] = useState(false); // State to toggle the comment accordion
 
+  useEffect(() => {
+    // Check local storage or session storage to determine if the post is liked
+    const hasLiked = localStorage.getItem(`liked_post_${id}`);
+    if (hasLiked) {
+      setLiked(true);
+    }
+  }, [id]);
+
   // Toggle functions for like, save, and comments
-  const handleLikeClick = () => setLiked(!liked);
+  const handleLikeClick = async () => {
+    try {
+      const response = await AxiosInstance.post(`/tweet/tweet/${id}/like/`);
+      setLikes(response.data.like_count);
+      setLiked(response.data.liked);
+      localStorage.setItem(`liked_post_${id}`, response.data.liked);
+    } catch (error) {
+      console.error('Failed to toggle like:', error);
+    }
+  };
+
   const handleSaveClick = () => setSaved(!saved);
   const handleCommentsToggle = () => setCommentsOpen(!commentsOpen);
 
@@ -34,7 +53,7 @@ const Post = ({ profilePic, username, postImage, postText }) => {
       <div className="flex justify-between items-center">
         {/* Like Button with Toggle */}
         <button
-          onClick={handleLikeClick}
+          onClick={handleLikeClick}// Disable button if liked
           className={`flex items-center space-x-1 transition-all duration-300 transform ${
             liked ? 'scale-125 text-red-500' : 'hover:text-[#9A48D0] active:scale-90'
           }`}
