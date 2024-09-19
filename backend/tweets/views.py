@@ -84,7 +84,7 @@ class TweetViewSet(viewsets.ModelViewSet):
     # You can override these methods if you need custom behavior.
 
 class CommentViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CommentModel.objects.all()
     serializer_class = CommentSerializer
 
