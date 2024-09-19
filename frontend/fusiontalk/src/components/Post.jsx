@@ -23,7 +23,7 @@ const Post = ({ id, profilePic, username, postImage, postText, likeCount, postDa
     }
 
     const fetchComments=async ()=>{
-      const response = await AxiosInstance.get('/tweet/comments/',{
+      const response = await AxiosInstance.get('/tweet/comments/by_tweet/',{
         params:{tweet_id:id}
       });
       // console.log(response.data)
@@ -74,8 +74,9 @@ const Post = ({ id, profilePic, username, postImage, postText, likeCount, postDa
     try {
       const response = await AxiosInstance.post(`/tweet/comments/`, { comment: commentInput,tweet: id});
       // console.log(response.data)
-      // setPostComments([...postComments, { ...response.data, profilePic, username }]); // Include profilePic and username for new comments
+      setPostComments([...postComments, { ...response.data, profilePic, username }]); // Include profilePic and username for new comments
       setCommentInput('');
+      // setPostComments(response.data)
     } catch (error) {
       console.error('Failed to add comment:', error);
     }
