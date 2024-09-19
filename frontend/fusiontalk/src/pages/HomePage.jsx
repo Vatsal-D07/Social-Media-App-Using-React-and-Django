@@ -11,7 +11,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <MainContent isSidebarOpen={isSidebarOpen} />
     </div>

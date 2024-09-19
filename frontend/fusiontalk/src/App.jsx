@@ -10,7 +10,7 @@ import PasswordResetConfirm from './components/PasswordResetConfirm';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import HomePage from './pages/HomePage';
 import { ACCESS_TOKEN } from './constants';
-
+import PostDetail from './pages/PostDetails';
 function Logout(){
   localStorage.clear()      
   return <Navigate to="/login"/>
