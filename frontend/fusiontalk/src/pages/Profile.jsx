@@ -1,9 +1,8 @@
-// src/pages/Profile.jsx
 import React from 'react';
-import Post from '../components/Post'; // Assuming the Post component is used here
+import { Link } from 'react-router-dom';
+import Post from '../components/Post'; // Import the Post component
 
 const Profile = () => {
-  // Sample user data
   const user = {
     profilePic: '/path/to/profile.jpg',
     username: 'john_doe',
@@ -13,66 +12,60 @@ const Profile = () => {
     posts: [
       {
         id: 1,
-        profilePic: '/path/to/profile1.jpg',
+        profilePic: '/path/to/profile.jpg',
         username: 'john_doe',
         postImage: '/path/to/post1.jpg',
         postText: 'Enjoying a beautiful day!',
+        likeCount: 45,
+        postDate: 'Sep 19, 2024',
+        postTime: '10:00 AM',
       },
       {
         id: 2,
-        profilePic: '/path/to/profile2.jpg',
+        profilePic: '/path/to/profile.jpg',
         username: 'john_doe',
         postImage: '/path/to/post2.jpg',
-        postText: 'Had a great time at the park.',
+        postText: 'Another great coding session!',
+        likeCount: 78,
+        postDate: 'Sep 18, 2024',
+        postTime: '2:00 PM',
       },
-      {
-        id: 3,
-        profilePic: '/path/to/profile2.jpg',
-        username: 'john_doe',
-        postImage: '/path/to/post2.jpg',
-        postText: 'Had a great time at the park.',
-      },
-      {
-        id: 4,
-        profilePic: '/path/to/profile2.jpg',
-        username: 'john_doe',
-        postImage: '/path/to/post2.jpg',
-        postText: 'Had a great time at the park.',
-      },
-      {
-        id: 5,
-        profilePic: '/path/to/profile2.jpg',
-        username: 'john_doe',
-        postImage: '/path/to/post2.jpg',
-        postText: 'Had a great time at the park.',
-      },
-      // Add more posts as needed
-    ]
+    ],
   };
 
   return (
     <div className="p-4 md:p-8 bg-[#020202] min-h-screen">
       {/* User Profile Section */}
       <div className="bg-[#1A1B25] text-white p-6 rounded-lg shadow-lg mb-8 max-w-3xl mx-auto">
-        <div className="flex items-center mb-4">
-          <img src={user.profilePic} alt={user.username} className="w-24 h-24 rounded-full border-4 border-[#9A48D0]" />
-          <div className="ml-6">
+        <div className="flex flex-col sm:flex-row items-center mb-4">
+          <img
+            src={user.profilePic}
+            alt={user.username}
+            className="w-24 h-24 rounded-full border-4 border-[#9A48D0] mb-4 sm:mb-0"
+          />
+          <div className="text-center sm:text-left sm:ml-6">
             <h1 className="text-2xl font-bold">{user.username}</h1>
-            {/* Followers and Following at the top */}
-            <div className="mt-4 flex space-x-6">
+            {/* Followers and Following */}
+            <div className="mt-4 flex flex-col sm:flex-row sm:space-x-6">
               <div className="text-center">
                 <span className="block text-lg font-semibold">{user.followers}</span>
-                <span className="text-gray-400">Followers</span>
+                <span className="hidden sm:block text-gray-400">Followers</span> {/* Hide text on small screens */}
               </div>
               <div className="text-center">
                 <span className="block text-lg font-semibold">{user.following}</span>
-                <span className="text-gray-400">Following</span>
+                <span className="hidden sm:block text-gray-400">Following</span> {/* Hide text on small screens */}
               </div>
             </div>
-            {/* Bio now at the bottom */}
-            <p className="text-gray-400 mt-6">{user.bio}</p>
+            <p className="text-gray-400 mt-4">{user.bio}</p>
           </div>
         </div>
+        {/* Edit Profile Button */}
+        <Link
+          to="/app/edit-profile"
+          className="block text-center sm:text-center bg-[#9A48D0] hover:bg-[#7a36a3] text-white py-2 px-4 rounded-md"
+        >
+          Edit Profile
+        </Link>
       </div>
 
       {/* User Posts Section */}
@@ -80,10 +73,17 @@ const Profile = () => {
         {user.posts.map(post => (
           <Post
             key={post.id}
+            id={post.id}
             profilePic={post.profilePic}
             username={post.username}
             postImage={post.postImage}
             postText={post.postText}
+            likeCount={post.likeCount}
+            postDate={post.postDate}
+            postTime={post.postTime}
+            onDelete={(postId) => {
+              console.log(`Deleted post with id: ${postId}`);
+            }}
           />
         ))}
       </div>

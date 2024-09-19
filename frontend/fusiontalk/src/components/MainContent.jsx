@@ -8,6 +8,8 @@ import Profile from '../pages/Profile';
 import Search from '../pages/Search';
 import Settings from '../pages/Settings';
 import PostDetail from '../pages/PostDetails';
+import EditProfile from '../pages/EditProfile';
+import Community from '../pages/Community';
 const MainContent = ({ isSidebarOpen }) => {
   return (
     <div
@@ -27,6 +29,10 @@ const MainContent = ({ isSidebarOpen }) => {
         <Route path="/messages" element={<Messages />} />
         <Route path="/create" element={<Create />} />
         <Route path="/app/post/:id" element={<PostDetail />} /> 
+        <Route path="/edit-profile" element={<EditProfile />} /> 
+        <Route path="/community" element={<Community />} /> 
+        <Route path="/post/:id" element={<PostDetail />} /> 
+
       </Routes>
     </div>
   );

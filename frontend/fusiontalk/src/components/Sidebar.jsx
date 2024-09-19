@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HomeIcon, UserIcon, MagnifyingGlassIcon, Cog6ToothIcon, ChatBubbleLeftIcon, PlusCircleIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'; // Update to Heroicons v2
+import { HomeIcon, UserIcon, MagnifyingGlassIcon, Cog6ToothIcon, ChatBubbleLeftIcon, PlusCircleIcon, EllipsisHorizontalIcon } from '@heroicons/react/24/outline'; // Update to Heroicons v2
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const [showLogout, setShowLogout] = useState(false);
+
   return (
     <div>
       {/* Sidebar for larger screens */}
@@ -12,9 +14,22 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         } md:translate-x-0 z-30`}
         style={{ zIndex: 30 }}
       >
-        <div className="flex items-center p-4 border-b border-gray-700">
+        <div className="relative flex items-center p-4 border-b border-gray-700 hover:bg-[#7b00ff] hover:rounded-full">
           <img src="/path/to/profile.jpg" alt="Profile" className="w-12 h-12 rounded-full mr-4" />
           <span className="text-lg font-semibold">Username</span>
+          <button
+            className="absolute right-4 p-2 rounded-full  transition-all"
+            onClick={() => setShowLogout(!showLogout)}
+          >
+            <EllipsisHorizontalIcon className="w-6 h-6" />
+          </button>
+          {showLogout && (
+            <div className="absolute right-0 top-full mt-0 bg-[#000000] text-white p-0 rounded-lg shadow-lg">
+              <Link to="/logout" className="block py-2 px-4  rounded transition-all">
+                Logout
+              </Link>
+            </div>
+          )}
         </div>
         <nav className="mt-6">
           <Link to="/app" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
@@ -23,11 +38,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <Link to="/app/profile" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
             <UserIcon className="w-6 h-6 mr-2" /> Profile
           </Link>
-          <Link to="/app/search" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
-            <MagnifyingGlassIcon className="w-6 h-6 mr-2" /> Search
-          </Link>
+          
           <Link to="/app/explore" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
             <HomeIcon className="w-6 h-6 mr-2" /> Explore
+          </Link>
+          <Link to="/app/community" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
+            <HomeIcon className="w-6 h-6 mr-2" /> Community
           </Link>
           <Link to="/app/settings" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
             <Cog6ToothIcon className="w-6 h-6 mr-2" /> Settings
@@ -38,9 +54,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <Link to="/app/create" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
             <PlusCircleIcon className="w-6 h-6 mr-2" /> Create
           </Link>
-          <Link to="/logout" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
-            <ArrowRightOnRectangleIcon className="w-6 h-6 mr-2" /> Logout
-          </Link>
+          
         </nav>
       </div>
 
