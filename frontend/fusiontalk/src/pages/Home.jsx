@@ -4,7 +4,7 @@ import Suggestions from '../components/Suggestions';
 import AxiosInstance from '../components/Axios';
 
 const Home = () => {
-  console.log('Home Page');
+
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState('');
 
@@ -21,16 +21,6 @@ const Home = () => {
 
     fetchPosts();
   }, []);
-
-  const handleDelete = async (id) => {
-    try {
-      await AxiosInstance.delete(`/tweet/tweets/${id}`);
-      setPosts(posts.filter(post => post.id !== id));
-    } catch (err) {
-      console.error('Error deleting tweet:', err.response ? err.response.data : err.message);
-      setError('Failed to delete tweet');
-    }
-  };
 
   if (error) {
     return <div>{error}</div>;
@@ -51,7 +41,7 @@ const Home = () => {
             likeCount={post.likes}
             date={post.date} // Assuming response has date
             time={post.time} // Assuming response has time
-            onDelete={handleDelete}
+
           />
         ))}
       </div>

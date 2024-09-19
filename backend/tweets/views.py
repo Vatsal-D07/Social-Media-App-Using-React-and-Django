@@ -4,6 +4,7 @@ from .serializers import TweetSerializer, CommentSerializer
 from .models import TweetModel, CommentModel
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework.exceptions import PermissionDenied  
 
 class LikeTweetView(APIView):
     def post(self, request, tweet_id):
@@ -33,6 +34,8 @@ class LikeTweetView(APIView):
             'liked': liked
         }, status=status.HTTP_200_OK)
         
+  
+ 
         
 class TweetViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
@@ -42,6 +45,18 @@ class TweetViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         # Automatically set the user to the currently logged-in user
         serializer.save(user=self.request.user)
+        
+        
+    def destroy(self, request, *args, **kwargs):
+        # Retrieve the post object
+        instance = self.get_object()
+
+        # Check if the current user is the owner of the post
+        if instance.user != request.user:
+            raise PermissionDenied("You do not have permission to delete this post.")
+        
+        # Proceed with the deletion if user is the owner
+        return super().destroy(request, *args, **kwargs)
     # def list(self, request):
     #     queryset=self.queryset.all()
     #     serializer=self.serializer_class(queryset,many=True)

@@ -6,7 +6,7 @@ import { Transition } from '@headlessui/react';
 import { useNavigate } from 'react-router-dom';
 import AxiosInstance from './Axios';
 
-const Post = ({ id, profilePic, username, postImage, postText, likeCount, postDate, postTime, comments, onDelete }) => {
+const Post = ({ id, profilePic, username, postImage, postText, likeCount, postDate, postTime, comments }) => {
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [likes, setLikes] = useState(likeCount ?? 0);
@@ -40,11 +40,12 @@ const Post = ({ id, profilePic, username, postImage, postText, likeCount, postDa
 
   const handleDelete = async () => {
     try {
-      await AxiosInstance.delete(`/tweet/tweets/${id}`);
-      if (onDelete) {
-        onDelete(id);
+     const response= await AxiosInstance.delete(`/tweet/tweets/${id}/`);
+     console.log(response.data)
+     window
+     navigate("/")
       }
-    } catch (error) {
+     catch (error) {
       console.error('Failed to delete post:', error);
     }
   };
