@@ -12,8 +12,9 @@ class TweetSerializer(serializers.ModelSerializer):
 
 # Serializer for the CommentModel
 class CommentSerializer(serializers.ModelSerializer):
-    users = serializers.StringRelatedField(many=True, read_only=True)
+    user = serializers.ReadOnlyField(source='user.username')  # Adjust to reflect the user's username
+    tweet = serializers.PrimaryKeyRelatedField(queryset=TweetModel.objects.all())  # Field to link to TweetModel
 
     class Meta:
         model = CommentModel
-        fields = ['id', 'users', 'comment']
+        fields = ['id', 'user', 'tweet', 'comment', 'created_at']  # Ensure these fields match your CommentModel

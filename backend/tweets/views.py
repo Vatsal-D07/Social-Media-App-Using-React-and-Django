@@ -5,6 +5,7 @@ from .models import TweetModel, CommentModel
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.exceptions import PermissionDenied  
+from rest_framework.decorators import action
 
 class LikeTweetView(APIView):
     def post(self, request, tweet_id):
@@ -83,10 +84,26 @@ class TweetViewSet(viewsets.ModelViewSet):
     # You can override these methods if you need custom behavior.
 
 class CommentViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     queryset = CommentModel.objects.all()
     serializer_class = CommentSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+    
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        return super().create(request, *args, **kwargs)
+    
+    @action(detail=False, methods=['get'])
+    def by_tweet(self, request):
+        tweet_id = request.query_params.get('tweet_id')
+        if not tweet_id:
+            return Response({'error': 'tweet_id is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        comments = CommentModel.objects.filter(tweet_id=tweet_id)
+        serializer = self.get_serializer(comments, many=True)
+        return Response(serializer.data)
     # def list(self, request):
     #     queryset=self.queryset.all()
     #     serializer=self.serializer_class(queryset,many=True)

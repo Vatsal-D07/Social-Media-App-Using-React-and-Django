@@ -12,6 +12,7 @@ const Home = () => {
     const fetchPosts = async () => {
       try {
         const response = await AxiosInstance.get('/tweet/tweets/');
+        // console.log(response.data)
         setPosts(response.data); // Assuming the data is an array of tweet objects
       } catch (err) {
         console.error('Error fetching tweets:', err.response ? err.response.data : err.message);
@@ -21,7 +22,7 @@ const Home = () => {
 
     fetchPosts();
   }, []);
-
+  
   if (error) {
     return <div>{error}</div>;
   }
@@ -41,7 +42,7 @@ const Home = () => {
             likeCount={post.likes}
             date={post.date} // Assuming response has date
             time={post.time} // Assuming response has time
-
+            comments={post.comments}
           />
         ))}
       </div>

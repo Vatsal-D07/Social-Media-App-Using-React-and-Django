@@ -21,6 +21,15 @@ const Post = ({ id, profilePic, username, postImage, postText, likeCount, postDa
     if (hasLiked === 'true') {
       setLiked(true);
     }
+
+    const fetchComments=async ()=>{
+      const response = await AxiosInstance.get('/tweet/comments/',{
+        params:{tweet_id:id}
+      });
+      // console.log(response.data)
+      setPostComments(response.data)
+    }
+    fetchComments()
   }, [id]);
 
   const handleLikeClick = async () => {
@@ -63,14 +72,16 @@ const Post = ({ id, profilePic, username, postImage, postText, likeCount, postDa
     if (!commentInput.trim()) return;
 
     try {
-      const response = await AxiosInstance.post(`/tweet/tweet/${id}/comment/`, { text: commentInput });
-      setPostComments([...postComments, { ...response.data, profilePic, username }]); // Include profilePic and username for new comments
+      const response = await AxiosInstance.post(`/tweet/comments/`, { comment: commentInput,tweet: id});
+      // console.log(response.data)
+      // setPostComments([...postComments, { ...response.data, profilePic, username }]); // Include profilePic and username for new comments
       setCommentInput('');
     } catch (error) {
       console.error('Failed to add comment:', error);
     }
   };
 
+  // console.log(postComments)  
   return (
     <div className="bg-[#1A1B25] text-white p-4 rounded-lg shadow-lg mb-6 relative">
       <button
@@ -175,10 +186,10 @@ const Post = ({ id, profilePic, username, postImage, postText, likeCount, postDa
           <div className="space-y-4">
             {postComments.map((comment) => (
               <div key={comment.id} className="flex items-start space-x-4 mb-2">
-                <img src={comment.profilePic} alt={comment.username} className="w-8 h-8 rounded-full" />
+                <img src={comment.profilePic} alt={comment.user} className="w-8 h-8 rounded-full" />
                 <div>
-                  <p className="font-semibold text-white">{comment.username}</p>
-                  <p className="text-gray-400">{comment.text}</p>
+                  <p className="font-semibold text-white">{comment.user}</p>
+                  <p className="text-gray-400">{comment.comment}</p>
                 </div>
               </div>
             ))}
