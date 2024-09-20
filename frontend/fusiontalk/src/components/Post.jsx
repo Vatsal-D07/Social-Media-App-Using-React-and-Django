@@ -6,7 +6,7 @@ import { Transition } from '@headlessui/react';
 import { useNavigate } from 'react-router-dom';
 import AxiosInstance from './Axios';
 
-const Post = ({ id, profilePic, username, postImage, postText, likeCount, postDate, postTime, comments }) => {
+const Post = ({ id, user ,profilepic, username, postImage, postText, likeCount, postDate, postTime, comments }) => {
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [likes, setLikes] = useState(likeCount ?? 0);
@@ -14,6 +14,9 @@ const Post = ({ id, profilePic, username, postImage, postText, likeCount, postDa
   const [menuOpen, setMenuOpen] = useState(false);
   const [commentInput, setCommentInput] = useState('');
   const [postComments, setPostComments] = useState(comments ?? []);
+  const [error,setError]=useState("");
+  console.log("THIS IS PROFILE",profilepic)
+  const[profile,setProfile]=useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +34,24 @@ const Post = ({ id, profilePic, username, postImage, postText, likeCount, postDa
     }
     fetchComments()
   }, [id]);
+
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      if (user) {
+        // console.log(user)
+        try {
+          const response = await AxiosInstance.get(`/account/profiles/?user_id=${user.id}`);
+          // console.log(response.data[0])
+          setProfile(response.data[0]);
+        } catch (err) {
+          console.error('Error fetching tweets:', err.response ? err.response.data : err.message);
+          setError('Failed to load tweets');
+        }
+      }
+    };
+  
+    fetchProfiles();
+  }, [user]);
 
   const handleLikeClick = async () => {
     try {
@@ -50,7 +71,7 @@ const Post = ({ id, profilePic, username, postImage, postText, likeCount, postDa
   const handleDelete = async () => {
     try {
      const response= await AxiosInstance.delete(`/tweet/tweets/${id}/`);
-     console.log(response.data)
+    //  console.log(response.data)
      window
      navigate("/")
       }
@@ -82,7 +103,7 @@ const Post = ({ id, profilePic, username, postImage, postText, likeCount, postDa
     }
   };
 
-  // console.log(postComments)  
+  // console.log(profile)  
   return (
     <div className="bg-[#1A1B25] text-white p-4 rounded-lg shadow-lg mb-6 relative">
       <button
@@ -113,7 +134,7 @@ const Post = ({ id, profilePic, username, postImage, postText, likeCount, postDa
 
       <div className="flex items-center justify-between mb-4 cursor-pointer" onClick={handlePostClick}>
         <div className="flex items-center">
-          <img src={profilePic} alt={username} className="w-12 h-12 rounded-full mr-4" />
+          <img src={profilepic ? profilepic:profile?.image} alt={username} className="w-12 h-12 rounded-full mr-4" />
           <span className="font-semibold">{username}</span>
         </div>
         <div className="text-gray-400 hidden sm:block">

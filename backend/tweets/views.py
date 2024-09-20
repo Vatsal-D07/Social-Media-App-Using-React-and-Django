@@ -46,7 +46,17 @@ class TweetViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         # Automatically set the user to the currently logged-in user
         serializer.save(user=self.request.user)
+
+    def get_queryset(self):
+        queryset = TweetModel.objects.all()
+
+        # Filter by user_id if provided in query params
+        user_id = self.request.query_params.get('user_id', None)
+        print(user_id)
+        if user_id is not None:
+            queryset = queryset.filter(user_id=user_id)
         
+        return queryset
         
     def destroy(self, request, *args, **kwargs):
         # Retrieve the post object

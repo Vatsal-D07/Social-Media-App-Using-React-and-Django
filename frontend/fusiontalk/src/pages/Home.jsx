@@ -4,10 +4,9 @@ import Suggestions from '../components/Suggestions';
 import AxiosInstance from '../components/Axios';
 
 const Home = () => {
-
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState('');
-
+  
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -19,9 +18,10 @@ const Home = () => {
         setError('Failed to load tweets');
       }
     };
-
     fetchPosts();
   }, []);
+
+  
   
   if (error) {
     return <div>{error}</div>;
@@ -35,12 +35,12 @@ const Home = () => {
           <Post
             key={post.id}
             id={post.id}
-            profilePic={post.profilePic} // Assuming response has profilePic
-            username={post.user}
+            user={post.user} // Assuming response has profilePic
+            username={post.user.username}
             postImage={post.image}
             postText={post.text}
             likeCount={post.likes}
-            date={post.date} // Assuming response has date
+            date={post.created_at} // Assuming response has date
             time={post.time} // Assuming response has time
             comments={post.comments}
           />

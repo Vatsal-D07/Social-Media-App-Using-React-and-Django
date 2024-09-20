@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import TweetModel, CommentModel
-
+from User.serializers import UserSerializer
 # Serializer for the TweetModel
 class TweetSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = TweetModel

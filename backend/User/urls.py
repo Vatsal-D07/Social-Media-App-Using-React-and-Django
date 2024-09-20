@@ -1,6 +1,11 @@
 from django.urls import path,include
 from .views import *
 from rest_framework_simplejwt.views import TokenRefreshView
+from .views import ProfileViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'profiles', ProfileViewSet, basename='profile')
 
 urlpatterns = [
     path("user/register/", CreateUserView().as_view(),name="register"),
@@ -9,5 +14,6 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls")),
     path('password_reset/',PasswordResetView.as_view(),name='password-reset'),
     path('password_reset_confirm/',PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
-    path("login-with-google/",LoginWithGoogle.as_view(),name='login-with-google')
+    path("login-with-google/",LoginWithGoogle.as_view(),name='login-with-google'),
+    path('',include(router.urls)),
 ]

@@ -6,6 +6,7 @@ from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from .models import *
 
 User = get_user_model()
 
@@ -105,3 +106,9 @@ class SetNewPasswordSerializer(serializers.Serializer):
             user.save()
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             raise serializers.ValidationError('Invalid token')
+        
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    class Meta:
+        model = Profile
+        fields = ['id','user', 'image', 'bio', 'followers', 'following']
