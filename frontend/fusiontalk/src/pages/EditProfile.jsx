@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const EditProfile = () => {
+    const navigate = useNavigate();
     console.log("EditProfile component rendered");
+
     const [user, setUser] = useState({
         profilePic: '/path/to/profile.jpg',
         username: 'john_doe',
@@ -24,10 +27,20 @@ const EditProfile = () => {
     };
 
     return (
-        <div className="p-6 md:p-12 bg-[#020202] min-h-screen flex items-center justify-center">
-            <div className="bg-[#1A1B25] text-white p-6 md:p-10 rounded-lg shadow-lg max-w-2xl w-full">
-                <h1 className="text-2xl md:text-3xl font-semibold text-center mb-8 text-[#9A48D0]">Edit Your Profile</h1>
+        <div className="p-6 md:p-12 bg-[#020202] min-h-screen flex items-center justify-center relative">
+            <div className="bg-[#1A1B25] text-white p-6 md:p-10 rounded-lg shadow-lg max-w-2xl w-full relative">
+                {/* Cross Button in Top Right Corner */}
+                <button
+                    onClick={() => navigate('/app/profile')}
+                    className="absolute top-4 right-4 text-[#9A48D0] hover:text-[#7a36a3] text-3xl"
+                >
+                    &times; {/* HTML entity for multiplication sign (cross) */}
+                </button>
                 
+                <div className="min-w-full text-center mb-8">
+                    <h1 className="text-2xl md:text-3xl font-semibold text-[#9A48D0]">Edit Your Profile</h1>
+                </div>
+
                 {/* Profile Picture Section */}
                 <div className="flex items-center justify-center mb-8">
                     <img

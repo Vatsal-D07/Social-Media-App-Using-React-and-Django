@@ -6,7 +6,7 @@ import { Transition } from '@headlessui/react';
 import { useNavigate } from 'react-router-dom';
 import AxiosInstance from './Axios';
 
-const Post = ({ id, user ,profilepic, username, postImage, postText, likeCount, postDate, postTime, comments }) => {
+const Post = ({ id, user, profilepic, username, postImage, postText, likeCount, postDate, postTime, comments }) => {
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [likes, setLikes] = useState(likeCount ?? 0);
@@ -14,9 +14,8 @@ const Post = ({ id, user ,profilepic, username, postImage, postText, likeCount, 
   const [menuOpen, setMenuOpen] = useState(false);
   const [commentInput, setCommentInput] = useState('');
   const [postComments, setPostComments] = useState(comments ?? []);
-  const [error,setError]=useState("");
-  console.log("THIS IS PROFILE",profilepic)
-  const[profile,setProfile]=useState(null);
+  const [error, setError] = useState("");
+  const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,23 +24,20 @@ const Post = ({ id, user ,profilepic, username, postImage, postText, likeCount, 
       setLiked(true);
     }
 
-    const fetchComments=async ()=>{
-      const response = await AxiosInstance.get('/tweet/comments/by_tweet/',{
-        params:{tweet_id:id}
+    const fetchComments = async () => {
+      const response = await AxiosInstance.get('/tweet/comments/by_tweet/', {
+        params: { tweet_id: id }
       });
-      // console.log(response.data)
-      setPostComments(response.data)
-    }
-    fetchComments()
+      setPostComments(response.data);
+    };
+    fetchComments();
   }, [id]);
 
   useEffect(() => {
     const fetchProfiles = async () => {
       if (user) {
-        // console.log(user)
         try {
           const response = await AxiosInstance.get(`/account/profiles/?user_id=${user.id}`);
-          // console.log(response.data[0])
           setProfile(response.data[0]);
         } catch (err) {
           console.error('Error fetching tweets:', err.response ? err.response.data : err.message);
@@ -49,7 +45,6 @@ const Post = ({ id, user ,profilepic, username, postImage, postText, likeCount, 
         }
       }
     };
-  
     fetchProfiles();
   }, [user]);
 
@@ -70,12 +65,9 @@ const Post = ({ id, user ,profilepic, username, postImage, postText, likeCount, 
 
   const handleDelete = async () => {
     try {
-     const response= await AxiosInstance.delete(`/tweet/tweets/${id}/`);
-    //  console.log(response.data)
-     window
-     navigate("/")
-      }
-     catch (error) {
+      await AxiosInstance.delete(`/tweet/tweets/${id}/`);
+      navigate("/");
+    } catch (error) {
       console.error('Failed to delete post:', error);
     }
   };
@@ -93,56 +85,54 @@ const Post = ({ id, user ,profilepic, username, postImage, postText, likeCount, 
     if (!commentInput.trim()) return;
 
     try {
-      const response = await AxiosInstance.post(`/tweet/comments/`, { comment: commentInput,tweet: id});
-      // console.log(response.data)
-      setPostComments([...postComments, { ...response.data, profilePic, username }]); // Include profilePic and username for new comments
+      const response = await AxiosInstance.post(`/tweet/comments/`, { comment: commentInput, tweet: id });
+      setPostComments([...postComments, { ...response.data, profilePic: profilepic, username }]);
       setCommentInput('');
-      // setPostComments(response.data)
     } catch (error) {
       console.error('Failed to add comment:', error);
     }
   };
 
-  // console.log(profile)  
   return (
     <div className="bg-[#1A1B25] text-white p-4 rounded-lg shadow-lg mb-6 relative">
-      <button
-        onClick={handleMenuToggle}
-        className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
-      >
-        <EllipsisVerticalIcon className="w-6 h-6" />
-      </button>
+      <div className='bg-[#414354] rounded-3xl p-1 mb-3'>
+        <button
+          onClick={handleMenuToggle}
+          className="absolute top-11 right-4 text-gray-400 hover:text-white transition-colors"
+        >
+          <EllipsisVerticalIcon className="w-6 h-6" />
+        </button>
 
-      <Transition
-        show={menuOpen}
-        enter="transition ease-out duration-300 transform"
-        enterFrom="opacity-0 scale-95"
-        enterTo="opacity-100 scale-100"
-        leave="transition ease-in duration-200 transform"
-        leaveFrom="opacity-100 scale-100"
-        leaveTo="opacity-0 scale-95"
-      >
-        <div className="absolute top-12 right-4 bg-[#25262E] rounded-lg shadow-lg border border-gray-700">
-          <button
-            onClick={handleDelete}
-            className="block px-4 py-2 text-red-500 hover:bg-[#1A1B25] w-full text-left rounded-t-lg"
-          >
-            Delete
-          </button>
-        </div>
-      </Transition>
+        <Transition
+          show={menuOpen}
+          enter="transition ease-out duration-300 transform"
+          enterFrom="opacity-0 scale-95"
+          enterTo="opacity-100 scale-100"
+          leave="transition ease-in duration-200 transform"
+          leaveFrom="opacity-100 scale-100"
+          leaveTo="opacity-0 scale-95"
+        >
+          <div className="absolute top-12 right-4 bg-[#25262E] rounded-lg shadow-lg border border-gray-700">
+            <button
+              onClick={handleDelete}
+              className="block px-4 py-2 text-red-500 hover:bg-[#1A1B25] w-full text-left rounded-t-lg"
+            >
+              Delete
+            </button>
+          </div>
+        </Transition>
 
-      <div className="flex items-center justify-between mb-4 cursor-pointer" onClick={handlePostClick}>
-        <div className="flex items-center">
-          <img src={profilepic ? profilepic:profile?.image} alt={username} className="w-12 h-12 rounded-full mr-4" />
-          <span className="font-semibold">{username}</span>
-        </div>
-        <div className="text-gray-400 hidden sm:block">
-          <p>{postDate}</p>
-          <p>{postTime}</p>
+        <div className="flex items-center justify-between mb-4 cursor-pointer" onClick={handlePostClick}>
+          <div className="flex items-center">
+            <img src={profilepic ? profilepic : profile?.image} alt={username} className="w-12 h-12 rounded-full mr-8 mt-3 ml-2" />
+            <span className="font-semibold mt-3 ">{username}</span>
+          </div>
+          <div className="text-gray-400 sm:flex flex-col text-right mr-6 mt-3">
+            <span className="text-xs">{postDate}</span>
+            <span className="text-xs">{postTime}</span>
+          </div>
         </div>
       </div>
-
       <div className="cursor-pointer" onClick={handlePostClick}>
         {postText && <p className="mb-4 text-start">{postText}</p>}
       </div>
@@ -153,9 +143,7 @@ const Post = ({ id, user ,profilepic, username, postImage, postText, likeCount, 
         <div className="flex flex-1 justify-around space-x-4">
           <button
             onClick={handleLikeClick}
-            className={`flex items-center space-x-1 transition-all duration-300 transform ${
-              liked ? 'scale-125 text-red-500' : 'hover:text-[#9A48D0] active:scale-90'
-            }`}
+            className={`flex items-center space-x-1 transition-all duration-300 transform ${liked ? 'scale-125 text-red-500' : 'hover:text-[#9A48D0] active:scale-90'}`}
           >
             {liked ? <HeartIconSolid className="w-6 h-6" /> : <HeartIconOutline className="w-6 h-6" />}
             <span className="text-sm">{likes}</span>
@@ -169,9 +157,7 @@ const Post = ({ id, user ,profilepic, username, postImage, postText, likeCount, 
           </button>
           <button
             onClick={handleSaveClick}
-            className={`flex items-center space-x-1 transition-all duration-300 ${
-              saved ? 'text-yellow-500' : 'hover:text-[#9A48D0]'
-            }`}
+            className={`flex items-center space-x-1 transition-all duration-300 ${saved ? 'text-yellow-500' : 'hover:text-[#9A48D0]'}`}
           >
             {saved ? <BookmarkIconSolid className="w-6 h-6" /> : <BookmarkIconOutline className="w-6 h-6" />}
             <span className="text-sm">Save</span>
@@ -210,7 +196,7 @@ const Post = ({ id, user ,profilepic, username, postImage, postText, likeCount, 
               <div key={comment.id} className="flex items-start space-x-4 mb-2">
                 <img src={comment.profilePic} alt={comment.user} className="w-8 h-8 rounded-full" />
                 <div>
-                  <p className="font-semibold text-white">{comment.user}</p>
+                  <p className="font-semibold">{comment.username}</p>
                   <p className="text-gray-400">{comment.comment}</p>
                 </div>
               </div>

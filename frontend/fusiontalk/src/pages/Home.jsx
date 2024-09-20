@@ -6,12 +6,11 @@ import AxiosInstance from '../components/Axios';
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState('');
-  
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await AxiosInstance.get('/tweet/tweets/');
-        // console.log(response.data)
         setPosts(response.data); // Assuming the data is an array of tweet objects
       } catch (err) {
         console.error('Error fetching tweets:', err.response ? err.response.data : err.message);
@@ -21,8 +20,6 @@ const Home = () => {
     fetchPosts();
   }, []);
 
-  
-  
   if (error) {
     return <div>{error}</div>;
   }
@@ -31,20 +28,27 @@ const Home = () => {
     <div className="flex justify-between">
       {/* Left - Posts Section */}
       <div className="w-full md:w-2/3 lg:w-3/5 p-4">
-        {posts.map(post => (
-          <Post
-            key={post.id}
-            id={post.id}
-            user={post.user} // Assuming response has profilePic
-            username={post.user.username}
-            postImage={post.image}
-            postText={post.text}
-            likeCount={post.likes}
-            date={post.created_at} // Assuming response has date
-            time={post.time} // Assuming response has time
-            comments={post.comments}
-          />
-        ))}
+        {posts.map(post => {
+          // Extracting and formatting date and time
+          const createdAt = new Date(post.created_at);
+          const date = createdAt.toLocaleDateString(); // Format date as needed
+          const time = createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format time as needed
+
+          return (
+            <Post
+              key={post.id}
+              id={post.id}
+              user={post.user}
+              username={post.user.username}
+              postImage={post.image}
+              postText={post.text}
+              likeCount={post.likes}
+              postDate={date} // Pass formatted date
+              postTime={time} // Pass formatted time
+              comments={post.comments}
+            />
+          );
+        })}
       </div>
 
       {/* Right - Suggestions Section */}

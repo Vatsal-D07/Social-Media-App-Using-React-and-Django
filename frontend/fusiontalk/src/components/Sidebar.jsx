@@ -14,7 +14,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         } md:translate-x-0 z-30`}
         style={{ zIndex: 30 }}
       >
-        <div className="relative flex items-center p-4 border-b border-gray-700 hover:bg-[#7b00ff] hover:rounded-full">
+        <div className="relative flex items-center p-4 border-b border-gray-700 hover:bg-[#7e6f84] hover:rounded-full">
           <img src="/path/to/profile.jpg" alt="Profile" className="w-12 h-12 rounded-full mr-4" />
           <span className="text-lg font-semibold">Username</span>
           <button
