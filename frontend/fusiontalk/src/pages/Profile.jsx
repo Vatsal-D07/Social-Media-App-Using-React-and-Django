@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AxiosInstance from '../components/Axios';
-import Post from '../components/Post'; // Import the Post component
+import Post from '../components/Post';
 import { USER_ID } from '../constants';
+import { PencilIcon } from '@heroicons/react/24/solid'; // Import the pencil icon
 
 const Profile = () => {
-  const [user, setUser] = useState(null); // Start with null
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [posts, setPosts] = useState([]);
-
-  const [authenticated,setAuthenticated]=useState(false)
+  const [authenticated, setAuthenticated] = useState(false);
+  
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
         const response = await AxiosInstance.get('/account/profiles/');
         setUser(response.data[0]);
-        if(response.data[0].user.id == localStorage.getItem(USER_ID)) {
+        if (response.data[0].user.id == localStorage.getItem(USER_ID)) {
           setAuthenticated(true);
         }
       } catch (error) {
@@ -26,16 +28,15 @@ const Profile = () => {
         setLoading(false);
       }
     };
-  
+
     fetchProfileData();
   }, []);
-  
+
   useEffect(() => {
     const fetchPosts = async () => {
       if (user) {
         try {
           const response = await AxiosInstance.get(`/tweet/tweets/?user_id=${user.user.id}`);
-          // console.log(response.data)
           setPosts(response.data);
         } catch (err) {
           console.error('Error fetching tweets:', err.response ? err.response.data : err.message);
@@ -43,33 +44,42 @@ const Profile = () => {
         }
       }
     };
-  
+
     fetchPosts();
-  }, [user]); // Only run when user is set
-  
+  }, [user]);
 
   if (loading) {
-    return <div>Loading...</div>; // Show a loading message while fetching data
+    return <div>Loading...</div>;
   }
 
   if (!user) {
-    return <div>No user data found.</div>; // Handle case where user data is not found
+    return <div>No user data found.</div>;
   }
-  console.log(posts)
 
   return (
     <div className="p-4 md:p-8 bg-[#020202] min-h-screen">
-      {/* User Profile Section */}
       <div className="bg-[#1A1B25] text-white p-6 rounded-lg shadow-lg mb-8 max-w-3xl mx-auto">
         <div className="flex flex-col sm:flex-row items-center mb-4">
           <img
-            src={user?.image} // Access image property only when user is not null
-            alt={user?.user.username} // Use the correct alt text
+            src={user?.image}
+            alt={user?.user.username}
             className="w-24 h-24 rounded-full border-4 border-[#9A48D0] mb-4 sm:mb-0"
           />
-          <div className="text-center sm:text-left sm:ml-6">
-            <h1 className="text-2xl font-bold">{user?.user.username}</h1>
-            {/* Followers and Following */}
+          <div className="text-center sm:text-left sm:ml-6 w-full">
+            {/* Container for username and edit button */}
+            <div className="flex items-center justify-center sm:justify-start space-x-2">
+              <h1 className="text-2xl font-bold">{user?.user.username}</h1>
+              {/* Edit Profile Button with Pencil Icon (No Background Color) */}
+              {authenticated && (
+                <button
+                  onClick={() => navigate('/app/edit-profile', { state: { user } })}
+                  className="flex items-center text-white"
+                  aria-label="Edit Profile"
+                >
+                  <PencilIcon className="h-5 w-5 text-white" aria-hidden="true" />
+                </button>
+              )}
+            </div>
             <div className="mt-4 flex flex-col sm:flex-row sm:space-x-6">
               <div className="text-center">
                 <span className="block text-lg font-semibold">{user?.followers.length}</span>
@@ -83,18 +93,9 @@ const Profile = () => {
             <p className="text-gray-400 mt-4">{user?.bio}</p>
           </div>
         </div>
-        {/* Edit Profile Button */}
-        {authenticated ? <Link
-          to="/app/edit-profile"
-          className="block text-center sm:text-center bg-[#9A48D0] hover:bg-[#7a36a3] text-white py-2 px-4 rounded-md"
-        >
-          Edit Profile
-        </Link>: null}
-        
       </div>
 
       {/* User Posts Section */}
-      {/* Uncomment and adjust if you have posts data */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {posts.map(post => (
           <Post
@@ -107,7 +108,6 @@ const Profile = () => {
             likeCount={post.likes}
             postDate={post.created_at}
             postTime={post.postTime}
-            
           />
         ))}
       </div>

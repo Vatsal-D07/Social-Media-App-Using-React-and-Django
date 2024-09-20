@@ -87,6 +87,12 @@ class ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
+        
+        if self.request.query_params.get('all') == 'true':
+            # Return all profiles if 'all=true' query param is provided
+            
+            return Profile.objects.all()
+
         # Only allow users to see their own profile
         return Profile.objects.filter(user=self.request.user)
 
@@ -96,14 +102,46 @@ class ProfileViewSet(viewsets.ModelViewSet):
     #     serializer = self.get_serializer(instance)
     #     return Response(serializer.data)
     
-    def perform_update(self, serializer):
-        # Save the profile update
-        serializer.save()
+    @action(detail=False, methods=['put'], url_path='update-profile/(?P<user_id>\d+)')
+    def update_profile(self, request, user_id=None):
+        try:
+            # Fetch the user by ID
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Check if the user is the same as the logged-in user or has permission to update
+        if request.user != user:
+            return Response({'error': 'You do not have permission to update this user.'}, status=status.HTTP_403_FORBIDDEN)
+
+        # Update username if provided
+        username = request.data.get('username')
+        if username:
+            user.username = username
+            user.save()
+
+        # Get the profile associated with the user
+        profile = Profile.objects.get(user=user)
+        print
+        # Update the profile image and bio
+        image = request.data.get('image')
+        print(image)
+        bio = request.data.get('bio')
+
+        if image:
+            profile.image = image
+        if bio:
+            profile.bio = bio
+
+        profile.save()
+
+        return Response({'message': 'Profile updated successfully.'}, status=status.HTTP_200_OK)
+
         
     @action(detail=False, methods=['get'], url_path='user/(?P<user_id>\d+)')
     def get_profile_by_user(self, request, user_id=None):
         user_profile = Profile.objects.filter(user_id=user_id).first()
-        serializer = self.get_serializer(user_profile, many=True)
+        serializer = self.get_serializer(user_profile)
         return Response(serializer.data)
     
     @action(detail=True, methods=['post'], url_path='follow')

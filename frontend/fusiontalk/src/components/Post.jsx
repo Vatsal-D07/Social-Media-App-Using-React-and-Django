@@ -15,7 +15,7 @@ const Post = ({ id, user ,profilepic, username, postImage, postText, likeCount, 
   const [commentInput, setCommentInput] = useState('');
   const [postComments, setPostComments] = useState(comments ?? []);
   const [error,setError]=useState("");
-  console.log("THIS IS PROFILE",profilepic)
+  // console.log("THIS IS PROFILE",profilepic)
   const[profile,setProfile]=useState(null);
   const navigate = useNavigate();
 
@@ -102,8 +102,8 @@ const Post = ({ id, user ,profilepic, username, postImage, postText, likeCount, 
       console.error('Failed to add comment:', error);
     }
   };
-
-  // console.log(profile)  
+  // console.log("HELO",profilepic )
+  // console.log(profile.image)  
   return (
     <div className="bg-[#1A1B25] text-white p-4 rounded-lg shadow-lg mb-6 relative">
       <button

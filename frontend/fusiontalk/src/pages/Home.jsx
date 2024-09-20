@@ -35,7 +35,7 @@ const Home = () => {
           <Post
             key={post.id}
             id={post.id}
-            user={post.user} // Assuming response has profilePic
+            user={post.user}// Assuming response has profilePic
             username={post.user.username}
             postImage={post.image}
             postText={post.text}
