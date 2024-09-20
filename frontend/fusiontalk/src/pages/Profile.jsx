@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AxiosInstance from '../components/Axios';
-import Post from '../components/Post'; // Import the Post component
+import Post from '../components/Post';
 import { USER_ID } from '../constants';
 import { FaEdit } from 'react-icons/fa';
 
 const Profile = () => {
-  const [user, setUser] = useState(null); // Start with null
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [posts, setPosts] = useState([]);
   const [authenticated, setAuthenticated] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false); // State to track follow status
+  
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
         const response = await AxiosInstance.get('/account/profiles/');
-        const fetchedUser = response.data[0];
-        setUser(fetchedUser);
-
-        // Check if the logged-in user is authenticated
-        if (fetchedUser.user.id == localStorage.getItem(USER_ID)) {
+        setUser(response.data[0]);
+        if (response.data[0].user.id == localStorage.getItem(USER_ID)) {
           setAuthenticated(true);
         }
 
@@ -77,19 +76,18 @@ const Profile = () => {
     } catch (error) {
       console.error('Error updating follow status:', error);
     }
-  };
+  }
 
   if (loading) {
-    return <div>Loading...</div>; // Show a loading message while fetching data
+    return <div>Loading...</div>;
   }
 
   if (!user) {
-    return <div>No user data found.</div>; // Handle case where user data is not found
+    return <div>No user data found.</div>;
   }
 
   return (
     <div className="p-4 md:p-8 bg-[#020202] min-h-screen">
-      {/* User Profile Section */}
       <div className="bg-[#1A1B25] text-white p-6 rounded-lg shadow-lg mb-8 max-w-3xl mx-auto">
         <div className="flex flex-col sm:flex-row items-center mb-4 ml-6">
           <img
@@ -100,9 +98,13 @@ const Profile = () => {
           <div className="text-center sm:text-left sm:ml-6 flex-1">
             <h1 className="flex justify-between text-2xl font-bold ml-16 p-1 pl-3 bg-slate-700 rounded-xl">{user?.user.username}
             {authenticated && (
-                  <Link to="/app/edit-profile" className="ml-2 text-[#9A48D0] hover:text-[#7a36a3] text-2xl">
-                    <FaEdit /> {/* React Icons edit icon */}
-                  </Link>
+                  <button
+                  onClick={() => navigate('/app/edit-profile', { state: { user } })}
+                  className="flex items-center text-white"
+                  aria-label="Edit Profile"
+                >
+                  <FaEdit  />
+                </button>
                 )}
             </h1>
             {/* Followers, Following, and Post Count */}

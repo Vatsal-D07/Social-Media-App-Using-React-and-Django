@@ -1,29 +1,61 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import AxiosInstance from '../components/Axios';
 
 const EditProfile = () => {
-    const navigate = useNavigate();
-    console.log("EditProfile component rendered");
-
-    const [user, setUser] = useState({
-        profilePic: '/path/to/profile.jpg',
-        username: 'john_doe',
-        bio: 'Just a regular guy who loves coding and coffee.',
+    const location = useLocation();
+    
+    // Initialize user from location state or default values
+    const [user, setUser] = useState(location.state?.user || {
+        image: null, // Initialize image as null, no preview needed
+        user: {
+            username: 'Username',
+            bio: 'Add a bio here.',
+        },
     });
 
+    console.log(user);
+
+    // Handle input changes for fields like username and bio
     const handleChange = (e) => {
-        setUser({ ...user, [e.target.name]: e.target.value });
+        setUser({
+            ...user,
+            [e.target.name]: e.target.value // Update nested fields
+        });
     };
 
+    // Handle profile picture change (store the file itself)
     const handleProfilePicChange = (e) => {
         const file = e.target.files[0];
+        console.log()
         if (file) {
-            setUser({ ...user, profilePic: URL.createObjectURL(file) });
+            setUser({ ...user, image: file }); // Directly store the file object
         }
     };
 
-    const handleSave = () => {
-        console.log('Profile updated', user);
+    // Handle save (logging the updated user data for now)
+    const handleSave = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('username', user.user.username);
+            formData.append('bio', user.user.bio);
+            
+            // Append the image file only if a new image was selected
+            if (user.image) {
+                formData.append('image', user.image);
+            }
+            
+            console.log(formData.get('image'));
+            
+            const response = await AxiosInstance.put(`/account/profiles/update-profile/${user.user.id}/`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Ensure this header is set for file uploads
+                },
+            });
+            console.log('Profile updated', response.data);
+        } catch (error) {
+            console.error('Error updating profile:', error);
+        }
     };
 
     return (
@@ -43,9 +75,10 @@ const EditProfile = () => {
 
                 {/* Profile Picture Section */}
                 <div className="flex items-center justify-center mb-8">
+                    {/* If user.image is null, show a placeholder image */}
                     <img
-                        src={user.profilePic}
-                        alt={user.username}
+                        src={user.image}
+                        alt={user.user.username}
                         className="w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-[#9A48D0] shadow-md"
                     />
                     {/* Custom Upload Button */}
@@ -71,7 +104,7 @@ const EditProfile = () => {
                     <input
                         type="text"
                         name="username"
-                        value={user.username}
+                        value={user.user.username}
                         onChange={handleChange}
                         className="w-full bg-[#1A1B25] border-2 border-[#9A48D0] text-white p-2 focus:outline-none focus:ring-2 focus:ring-[#9A48D0] rounded-md"
                         placeholder="Enter your username"

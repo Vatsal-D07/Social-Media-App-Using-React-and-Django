@@ -14,8 +14,9 @@ const Post = ({ id, user, profilepic, username, postImage, postText, likeCount, 
   const [menuOpen, setMenuOpen] = useState(false);
   const [commentInput, setCommentInput] = useState('');
   const [postComments, setPostComments] = useState(comments ?? []);
-  const [error, setError] = useState("");
-  const [profile, setProfile] = useState(null);
+  const [error,setError]=useState("");
+  // console.log("THIS IS PROFILE",profilepic)
+  const[profile,setProfile]=useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -92,7 +93,8 @@ const Post = ({ id, user, profilepic, username, postImage, postText, likeCount, 
       console.error('Failed to add comment:', error);
     }
   };
-
+  // console.log("HELO",profilepic )
+  // console.log(profile.image)  
   return (
     <div className="bg-[#1A1B25] text-white p-4 rounded-lg shadow-lg mb-6 relative">
       <div className='bg-[#414354] rounded-3xl p-1 mb-3'>
