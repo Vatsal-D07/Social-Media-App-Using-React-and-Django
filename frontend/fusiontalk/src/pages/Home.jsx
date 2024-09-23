@@ -28,7 +28,7 @@ const Home = () => {
     <div className="flex justify-between">
       {/* Left - Posts Section */}
       <div className="w-full md:w-2/3 lg:w-3/5 p-4">
-        {posts.map(post => {
+        {posts.slice().reverse().map(post => {
           // Extracting and formatting date and time
           const createdAt = new Date(post.created_at);
           const date = createdAt.toLocaleDateString(); // Format date as needed

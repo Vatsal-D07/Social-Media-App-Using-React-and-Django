@@ -51,8 +51,8 @@ const Create = () => {
   };
 
   return (
-    <div className="p-4 md:p-8 bg-[#020202] min-h-screen">
-      <div className="bg-[#1A1B25] text-white p-6 rounded-lg shadow-lg max-w-3xl mx-auto">
+    <div className="p-4 md:p-8 bg-[#ffffff] min-h-screen">
+      <div className="bg-[#ffffff] text-black  p-6 rounded-lg shadow-lg max-w-3xl mx-auto">
         <h1 className="text-2xl font-bold mb-4">Create a New Post</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && <p className="text-red-500">{error}</p>}
@@ -62,7 +62,7 @@ const Create = () => {
             onChange={handleTextChange}
             placeholder="What's on your mind?"
             rows="4"
-            className="w-full p-3 rounded-lg bg-[#020202] border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#9A48D0] transition-all duration-300"
+            className="w-full p-3 rounded-lg bg-[#d5d5d5] border border-gray-600 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#9A48D0] transition-all duration-300"
           />
           <div className="relative">
             <input
@@ -84,7 +84,7 @@ const Create = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-[#9A48D0] text-white p-3 rounded-lg hover:bg-[#7a3ab3] transition-all duration-300 active:scale-95"
+            className="w-full bg-[#276FBF] text-white p-3 rounded-lg hover:bg-[#276FBF] transition-all duration-300 active:scale-95"
           >
             Post
           </button>

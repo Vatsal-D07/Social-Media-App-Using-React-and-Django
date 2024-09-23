@@ -87,8 +87,8 @@ const Profile = () => {
   }
 
   return (
-    <div className="p-4 md:p-8 bg-[#020202] min-h-screen">
-      <div className="bg-[#1A1B25] text-white p-6 rounded-lg shadow-lg mb-8 max-w-3xl mx-auto">
+    <div className="p-4 md:p-8 bg-white min-h-screen">
+      <div className="bg-white text-white p-6 rounded-lg shadow-lg mb-8 max-w-3xl mx-auto">
         <div className="flex flex-col sm:flex-row items-center mb-4 ml-6">
           <img
             src={user?.image}
@@ -96,7 +96,7 @@ const Profile = () => {
             className="w-24 h-24 rounded-full border-4 border-[#9A48D0] mb-4 sm:mb-0"
           />
           <div className="text-center sm:text-left sm:ml-6 flex-1">
-            <h1 className="flex justify-between text-2xl font-bold ml-16 p-1 pl-3 bg-slate-700 rounded-xl">{user?.user.username}
+            <h1 className="flex justify-between text-2xl font-bold ml-16 p-1 pl-3 bg-slate-300 text-black rounded-xl">{user?.user.username}
             {authenticated && (
                   <button
                   onClick={() => navigate('/app/edit-profile', { state: { user } })}
@@ -110,21 +110,21 @@ const Profile = () => {
             {/* Followers, Following, and Post Count */}
             <div className="mt-4 flex justify-between items-center">
               <div className="flex-1 text-center">
-                <span className="block text-lg font-semibold">{posts.length}</span>
+                <span className="block text-lg font-semibold text-black">{posts.length}</span>
                 <span className="hidden sm:block text-gray-400">Posts</span>
               </div>
               <div className="flex-1 text-center">
-                <span className="block text-lg font-semibold">{user?.followers.length}</span>
+                <span className="block text-lg font-semibold text-black">{user?.followers.length}</span>
                 <span className="hidden sm:block text-gray-400">Followers</span>
               </div>
               <div className="flex-1 text-center">
-                <span className="block text-lg font-semibold">{user?.following.length}</span>
+                <span className="block text-lg font-semibold text-black">{user?.following.length}</span>
                 <span className="hidden sm:block text-gray-400">Following</span>
               </div>
               <div className="flex items-center flex-1 justify-center">
                 <button
                   onClick={handleFollowToggle}
-                  className={`bg-[#9A48D0] hover:bg-[#7a36a3] text-white py-2 px-4 rounded-md`}
+                  className={`bg-[#d3d3d3] hover:bg-[#276FBF] text-black py-2 px-4 rounded-md`}
                 >
                   {isFollowing ? 'Unfollow' : 'Follow'}
                 </button>

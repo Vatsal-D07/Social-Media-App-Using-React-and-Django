@@ -1,22 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HomeIcon, UserIcon, MagnifyingGlassIcon, Cog6ToothIcon, ChatBubbleLeftIcon, PlusCircleIcon, EllipsisHorizontalIcon } from '@heroicons/react/24/outline'; // Update to Heroicons v2
-
+import AxiosInstance from '../components/Axios';
+import { USER_ID } from '../constants';
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const [showLogout, setShowLogout] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const response = await AxiosInstance.get('/account/profiles/');
+        setUser(response.data[0]);
+        if (response.data[0].user.id == localStorage.getItem(USER_ID)) {
+          setAuthenticated(true);
+        }
+
+        // Check if the user is already followed
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfileData();
+  }, []);
 
   return (
     <div>
       {/* Sidebar for larger screens */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-[#1A1B25] text-white transition-transform transform ${
+        className={`fixed top-0 left-0 h-full w-64 bg-white text-black  shadow-2xl rounded-r-3xl transition-transform transform ${
           isOpen ? 'translate-x-0' : '-translate-x-64'
         } md:translate-x-0 z-30`}
         style={{ zIndex: 30 }}
       >
-        <div className="relative flex items-center p-4 border-b border-gray-700 hover:bg-[#7e6f84] hover:rounded-full">
-          <img src="/path/to/profile.jpg" alt="Profile" className="w-12 h-12 rounded-full mr-4" />
-          <span className="text-lg font-semibold">Username</span>
+        <div className="relative flex items-center p-4 border-b border-gray-700 hover:bg-[#c4c4c4] ">
+          <img src={user?.image} alt={user?.user.username} className="w-12 h-12 rounded-full mr-4" />
+          <span className="text-lg font-semibold text-black">{user?.user.username}</span>
           <button
             className="absolute right-4 p-2 rounded-full  transition-all"
             onClick={() => setShowLogout(!showLogout)}
@@ -32,27 +56,27 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           )}
         </div>
         <nav className="mt-6">
-          <Link to="/app" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
-            <HomeIcon className="w-6 h-6 mr-2" /> Home
+          <Link to="/app" className="flex items-center py-5 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
+            <HomeIcon className="w-6 h-6 mr-2 ml-10" /> Home
           </Link>
-          <Link to="/app/profile" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
-            <UserIcon className="w-6 h-6 mr-2" /> Profile
+          <Link to="/app/profile" className="flex items-center py-5 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
+            <UserIcon className="w-6 h-6 mr-2 ml-10" /> Profile
           </Link>
           
-          <Link to="/app/explore" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
-            <HomeIcon className="w-6 h-6 mr-2" /> Explore
+          <Link to="/app/explore" className="flex items-center py-5 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
+            <HomeIcon className="w-6 h-6 mr-2 ml-10" /> Explore
           </Link>
-          <Link to="/app/community" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
-            <HomeIcon className="w-6 h-6 mr-2" /> Community
+          <Link to="/app/community" className="flex items-center py-5 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
+            <HomeIcon className="w-6 h-6 mr-2 ml-10" /> Community
           </Link>
-          <Link to="/app/settings" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
-            <Cog6ToothIcon className="w-6 h-6 mr-2" /> Settings
+          <Link to="/app/settings" className="flex items-center py-5 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
+            <Cog6ToothIcon className="w-6 h-6 mr-2 ml-10" /> Settings
           </Link>
-          <Link to="/app/messages" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
-            <ChatBubbleLeftIcon className="w-6 h-6 mr-2" /> Messages
+          <Link to="/app/messages" className="flex items-center py-5 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
+            <ChatBubbleLeftIcon className="w-6 h-6 mr-2 ml-10" /> Messages
           </Link>
-          <Link to="/app/create" className="flex items-center py-2 px-4 hover:bg-[#9A48D0] rounded hover:rounded-full transition-all">
-            <PlusCircleIcon className="w-6 h-6 mr-2" /> Create
+          <Link to="/app/create" className="flex items-center py-5 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
+            <PlusCircleIcon className="w-6 h-6 mr-2 ml-10" /> Create
           </Link>
           
         </nav>

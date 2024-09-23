@@ -36,7 +36,7 @@ const Explore = () => {
 
   return (
     <div className="p-4 mx-auto max-w-screen-md">
-      <h1 className="text-2xl font-semibold text-white mb-4 text-center">Explore Page</h1>
+      <h1 className="text-2xl font-semibold text-black mb-4 text-center">Explore Page</h1>
       
       <div className="flex items-center mb-4">
         <input
@@ -44,9 +44,9 @@ const Explore = () => {
           placeholder="Search posts..."
           value={searchTerm}
           onChange={handleSearchChange}
-          className="w-full p-2 bg-gray-800 text-white rounded-md border border-gray-600"
+          className="w-full p-2 bg-[#dedede] text-black rounded-md border border-gray-600"
         />
-        <button className="ml-4 bg-[#9A48D0] text-white p-2 rounded-md">
+        <button className="ml-4 bg-[#276FBF] text-white p-2 rounded-md">
           Search
         </button>
       </div>

@@ -13,7 +13,7 @@ import Community from '../pages/Community';
 const MainContent = ({ isSidebarOpen }) => {
   return (
     <div
-      className={`inset-0 absolute flex-grow bg-[#020202] transition-all duration-300 ${
+      className={`inset-0 absolute flex-grow bg-[#FDFFFC] transition-all duration-300 ${
         isSidebarOpen ? 'ml-0' : 'md:ml-48'
       } ${!isSidebarOpen && 'md:pl-16'} ${
         isSidebarOpen ? 'md:pl-0' : ''
