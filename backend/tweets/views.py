@@ -30,6 +30,7 @@ class LikeTweetView(APIView):
         
         # Return updated like count and status
         serializer = TweetSerializer(tweet)
+        print(tweet.likes.count())
         return Response({
             'like_count': tweet.likes.count(),
             'liked': liked

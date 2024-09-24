@@ -48,22 +48,22 @@ export default function PasswordResetConfirm() {
     };
 
     return (
-        <div className="inset-0 absolute min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-black">
-            <div className="w-full max-w-md px-8 py-6 bg-gradient-to-r from-gray-800 to-gray-700 rounded-3xl shadow-lg overflow-hidden flex flex-col justify-between">
+        <div className="inset-0 absolute min-h-screen flex items-center justify-center bg-white">
+            <div className="w-full max-w-md px-8 py-6 bg-gradient-to-r from-gray-400 to-gray-300 rounded-md shadow-lg overflow-hidden flex flex-col justify-between">
                 <div>
-                    <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-center">Reset Password</h1>
-                    <p className="mt-2 text-lg text-gray-400 text-center">Enter your new password.</p>
-                    {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
-                    {message && <p className="mt-4 text-green-500 text-center">{message}</p>}
+                    <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-blue-600 text-center">Reset Password</h1>
+                    <p className="mt-2 text-lg text-black text-center">Enter your new password.</p>
+                    {error && <p className="mt-4 text-red-900 text-center">{error}</p>}
+                    {message && <p className="mt-4 text-green-900 text-center">{message}</p>}
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-400">New Password</label>
+                        <label className="block text-sm text-start font-medium text-black">New Password</label>
                         <div className="relative">
                             <input
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition duration-300 pr-12 text-white"
+                                className="mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-300 pr-12 text-white"
                                 placeholder="Enter your new password"
                                 type={showPassword ? "text" : "password"}
                                 required
@@ -71,19 +71,19 @@ export default function PasswordResetConfirm() {
                             <button 
                                 type="button" 
                                 onClick={() => setShowPassword(!showPassword)} 
-                                className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 hover:text-purple-500 transition duration-300"
+                                className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 hover:text-blue-500 transition duration-300"
                             >
                                 {showPassword ? <FaEyeSlash /> : <FaEye />}
                             </button>
                         </div>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-400">Confirm Password</label>
+                        <label className="block text-sm text-start  font-medium text-black">Confirm Password</label>
                         <div className="relative">
                             <input
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                className="mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition duration-300 pr-12 text-white"
+                                className="mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-300 pr-12 text-white"
                                 placeholder="Confirm your new password"
                                 type={showConfirmPassword ? "text" : "password"}
                                 required
@@ -91,7 +91,7 @@ export default function PasswordResetConfirm() {
                             <button 
                                 type="button" 
                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)} 
-                                className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 hover:text-purple-500 transition duration-300"
+                                className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 hover:text-blue-500 transition duration-300"
                             >
                                 {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                             </button>
@@ -101,7 +101,7 @@ export default function PasswordResetConfirm() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-3 px-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105 flex justify-center"
+                            className="w-full py-3 px-4 bg-blue-500 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105 flex justify-center"
                         >
                             {loading ? (
                                 <svg

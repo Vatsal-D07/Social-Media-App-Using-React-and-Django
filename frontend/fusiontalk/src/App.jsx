@@ -11,8 +11,14 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import HomePage from './pages/HomePage';
 import { ACCESS_TOKEN } from './constants';
 import PostDetail from './pages/PostDetails';
+
+
+ 
+
 function Logout(){
-  localStorage.clear()      
+  // const item = localStorage.getItem()
+  localStorage.clear()
+
   return <Navigate to="/login"/>
 }
 

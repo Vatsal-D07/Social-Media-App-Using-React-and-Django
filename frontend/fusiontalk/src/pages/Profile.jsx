@@ -88,19 +88,19 @@ const Profile = () => {
 
   return (
     <div className="p-4 md:p-8 bg-white min-h-screen">
-      <div className="bg-white text-white p-6 rounded-lg shadow-lg mb-8 max-w-3xl mx-auto">
+      <div className="bg-white text-white p-6  shadow-lg mb-8  mx-auto">
         <div className="flex flex-col sm:flex-row items-center mb-4 ml-6">
           <img
             src={user?.image}
             alt={user?.user.username}
-            className="w-24 h-24 rounded-full border-4 border-[#9A48D0] mb-4 sm:mb-0"
+            className="w-24 h-24 rounded-full border-4 border-[#485ad0] mb-4 sm:mb-0"
           />
           <div className="text-center sm:text-left sm:ml-6 flex-1">
-            <h1 className="flex justify-between text-2xl font-bold ml-16 p-1 pl-3 bg-slate-300 text-black rounded-xl">{user?.user.username}
+            <h1 className="flex justify-between text-2xl font-bold ml-16 p-1 pl-3 bg-white text-black rounded-xl">{user?.user.username}
             {authenticated && (
                   <button
                   onClick={() => navigate('/app/edit-profile', { state: { user } })}
-                  className="flex items-center text-white"
+                  className="flex items-center text-black"
                   aria-label="Edit Profile"
                 >
                   <FaEdit  />
@@ -138,7 +138,7 @@ const Profile = () => {
       </div>
 
       {/* User Posts Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
         {posts.map((post) => {
           // Convert created_at to Date object
           const postDate = new Date(post.created_at);
@@ -153,7 +153,7 @@ const Profile = () => {
               username={post.user.username}
               postImage={post.image}
               postText={post.text}
-              likeCount={post.likes}
+              likeCount={post.likes.length}
               postDate={formattedDate} // Pass the formatted date
               postTime={formattedTime} // Pass the formatted time
             />

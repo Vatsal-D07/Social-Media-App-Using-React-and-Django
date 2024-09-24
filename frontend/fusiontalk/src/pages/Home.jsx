@@ -12,6 +12,7 @@ const Home = () => {
       try {
         const response = await AxiosInstance.get('/tweet/tweets/');
         setPosts(response.data); // Assuming the data is an array of tweet objects
+        console.log(response.data[0].likes.length)
       } catch (err) {
         console.error('Error fetching tweets:', err.response ? err.response.data : err.message);
         setError('Failed to load tweets');
@@ -42,7 +43,7 @@ const Home = () => {
               username={post.user.username}
               postImage={post.image}
               postText={post.text}
-              likeCount={post.likes}
+              likeCount={post.likes.length}
               postDate={date} // Pass formatted date
               postTime={time} // Pass formatted time
               comments={post.comments}

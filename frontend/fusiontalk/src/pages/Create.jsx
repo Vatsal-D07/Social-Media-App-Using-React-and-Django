@@ -57,31 +57,36 @@ const Create = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && <p className="text-red-500">{error}</p>}
           {successMessage && <p className="text-green-500">{successMessage}</p>}
+          <div className='flex flex-wrap gap-2'>
+          <div className='flex-1'>
           <textarea
             value={text}
             onChange={handleTextChange}
             placeholder="What's on your mind?"
             rows="4"
-            className="w-full p-3 rounded-lg bg-[#d5d5d5] border border-gray-600 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#9A48D0] transition-all duration-300"
+            className="w-full h-full p-3 rounded-lg bg-[#d5d5d5] border border-gray-600 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#9A48D0] transition-all duration-300"
           />
-          <div className="relative">
+          </div>
+          <div className="relative flex-4 h-30 w-36">
             <input
               type="file"
               accept="image/*"
               onChange={handleImageChange}
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             />
-            <div className={`w-full h-64 bg-gray-700 rounded-lg flex items-center justify-center text-gray-400 ${image ? 'hidden' : 'block'}`}>
-              <span>Upload an image</span>
+            <div className={`w-full h-full bg-black rounded-lg flex items-center justify-center text-gray-400 ${image ? 'hidden' : 'block'}`}>
+              <span>Upload</span>
             </div>
-            {image && (
+            
+          </div>
+          </div>
+          {image && (
               <img
                 src={URL.createObjectURL(image)} // Use createObjectURL to show the image preview
                 alt="Selected"
                 className="w-full h-64 object-cover rounded-lg mt-2"
               />
             )}
-          </div>
           <button
             type="submit"
             className="w-full bg-[#276FBF] text-white p-3 rounded-lg hover:bg-[#276FBF] transition-all duration-300 active:scale-95"

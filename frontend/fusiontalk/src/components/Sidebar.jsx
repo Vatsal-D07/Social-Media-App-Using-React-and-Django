@@ -56,7 +56,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           )}
         </div>
         <nav className="mt-6">
-          <Link to="/app" className="flex items-center py-5 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
+          <Link to="/app" className="flex items-center py-7 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
             <HomeIcon className="w-6 h-6 mr-2 ml-10" /> Home
           </Link>
           <Link to="/app/profile" className="flex items-center py-5 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
@@ -64,19 +64,17 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           </Link>
           
           <Link to="/app/explore" className="flex items-center py-5 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
-            <HomeIcon className="w-6 h-6 mr-2 ml-10" /> Explore
+            <MagnifyingGlassIcon className="w-6 h-6 mr-2 ml-10" /> Explore
           </Link>
           <Link to="/app/community" className="flex items-center py-5 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
             <HomeIcon className="w-6 h-6 mr-2 ml-10" /> Community
           </Link>
-          <Link to="/app/settings" className="flex items-center py-5 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
-            <Cog6ToothIcon className="w-6 h-6 mr-2 ml-10" /> Settings
-          </Link>
+          
           <Link to="/app/messages" className="flex items-center py-5 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
             <ChatBubbleLeftIcon className="w-6 h-6 mr-2 ml-10" /> Messages
           </Link>
           <Link to="/app/create" className="flex items-center py-5 px-4 hover:bg-[#d5d7da]  rounded hover:rounded-lg transition-all">
-            <PlusCircleIcon className="w-6 h-6 mr-2 ml-10" /> Create
+            <PlusCircleIcon className="w-6 h-6 mr-2 ml-10" /> Create Post
           </Link>
           
         </nav>

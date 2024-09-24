@@ -6,7 +6,7 @@ from PIL import Image
 
 class Profile(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
-    image=models.ImageField(default='profile-pics/default1.jpg',upload_to='profile-pics')
+    image=models.ImageField(default='profile-pics/default.jpg',upload_to='profile-pics')
     bio=models.TextField()
     
     # Many-to-many relationships for followers and following

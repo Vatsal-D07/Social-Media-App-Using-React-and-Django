@@ -91,31 +91,31 @@ export default function FormRegLog({ route, method }) {
     };
 
     return (
-        <div className="inset-0 absolute min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-black">
-            <div className="w-full max-w-md px-8 py-6 bg-gradient-to-r from-gray-800 to-gray-700 rounded-3xl shadow-lg overflow-hidden flex flex-col justify-between">
+        <div className="inset-0 absolute min-h-screen flex items-center justify-center bg-white">
+            <div className="w-full max-w-md px-8 py-6 bg-gradient-to-r from-gray-400 to-gray-300 rounded-md shadow-lg overflow-hidden flex flex-col justify-between">
                 <div>
-                    <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-center">{name}</h1>
-                    <p className="mt-2 text-lg text-gray-400 text-center">Welcome! Please {method === "login" ? "login to your account" : "create an account"}.</p>
+                    <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-[#163dff]">{name}</h1>
+                    <p className="mt-2 text-lg text-black text-center">Welcome! Please {method === "login" ? "login to your account" : "create an account"}.</p>
                     {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-400">Username</label>
+                        <label className="block text-sm text-start font-medium text-black">Username</label>
                         <input
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            className="text-white mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition duration-300"
+                            className="text-white mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-300"
                             placeholder="Enter your username"
                             required
                         />
                     </div>
                     {method === "register" && (
                         <div>
-                            <label className="block text-sm font-medium text-gray-400">Email</label>
+                            <label className="block text-sm text-start font-medium text-black">Email</label>
                             <input
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="text-white mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition duration-300"
+                                className="text-white mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-300"
                                 placeholder="Enter your email"
                                 type="email"
                                 required
@@ -123,12 +123,12 @@ export default function FormRegLog({ route, method }) {
                         </div>
                     )}
                     <div>
-                        <label className="block text-sm font-medium text-gray-400">Password</label>
+                        <label className="block text-sm text-start font-medium text-black">Password</label>
                         <div className="relative">
                             <input
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="text-white mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition duration-300 pr-12"
+                                className="text-white mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-300 pr-12"
                                 placeholder="Enter your password"
                                 type={showPassword ? "text" : "password"}
                                 required
@@ -136,7 +136,7 @@ export default function FormRegLog({ route, method }) {
                             <button 
                                 type="button" 
                                 onClick={() => setShowPassword(!showPassword)} 
-                                className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 hover:text-purple-500 transition duration-300"
+                                className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 hover:text-blue-500 transition duration-300"
                             >
                                 {showPassword ? <FaEyeSlash /> : <FaEye />}
                             </button>
@@ -144,12 +144,12 @@ export default function FormRegLog({ route, method }) {
                     </div>
                     {method === "register" && (
                         <div>
-                            <label className="block text-sm font-medium text-gray-400">Confirm Password</label>
+                            <label className="block text-sm font-medium text-start text-black">Confirm Password</label>
                             <div className="relative">
                                 <input
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
-                                    className="text-white mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none transition duration-300 pr-12"
+                                    className="text-white mt-1 w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-300 pr-12"
                                     placeholder="Confirm your password"
                                     type={showConfirmPassword ? "text" : "password"}
                                     required
@@ -157,7 +157,7 @@ export default function FormRegLog({ route, method }) {
                                 <button 
                                     type="button" 
                                     onClick={() => setShowConfirmPassword(!showConfirmPassword)} 
-                                    className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 hover:text-purple-500 transition duration-300"
+                                    className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 hover:text-blue-500 transition duration-300"
                                 >
                                     {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                                 </button>
@@ -169,17 +169,17 @@ export default function FormRegLog({ route, method }) {
                             <input 
                                 type="checkbox" 
                                 id="remember" 
-                                className="h-4 w-4 text-purple-500 bg-gray-800 border-gray-600 rounded focus:ring-purple-500"
+                                className="h-4 w-4 text-blue-500 bg-gray-800 border-gray-600 rounded focus:ring-blue-500"
                             />
-                            <label htmlFor="remember" className="ml-2 text-sm text-gray-400">Remember me</label>
+                            <label htmlFor="remember" className="ml-2 text-sm text-black">Remember me</label>
                         </div>
-                        <button type="button" onClick={()=>{navigate('/reset-password')}} className="text-sm text-purple-500 hover:underline">Forgot password?</button>
+                        <button type="button" onClick={()=>{navigate('/reset-password')}} className="text-sm text-blue-500 hover:underline">Forgot password?</button>
                     </div>
                     <div className="mt-4">
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-3 px-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105 flex justify-center"
+                            className="w-full py-3 px-4 bg-blue-500 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105 flex justify-center"
                         >
                             {loading ? (
                                 <div className="spinner-border animate-spin inline-block w-6 h-6 border-4 rounded-full border-t-transparent"></div>
@@ -192,7 +192,7 @@ export default function FormRegLog({ route, method }) {
                         <button
                             onClick={g_login}
                             type="button"
-                            className="w-full py-3 px-4 bg-gray-700 text-white font-bold rounded-xl shadow-lg flex items-center justify-center space-x-3 hover:bg-gray-600 transition duration-300"
+                            className="w-full py-3 px-4 bg-blue-300 font-bold rounded-xl shadow-lg flex items-center justify-center space-x-3 hover:bg-white transition duration-300" 
                         >
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M5.26644 9.76453C6.19903 6.93863 8.85469 4.90909 12.0002 4.90909C13.6912 4.90909 15.2184 5.50909 16.4184 6.49091L19.9093 3C17.7821 1.14545 15.0548 0 12.0002 0C7.27031 0 3.19799 2.6983 1.24023 6.65002L5.26644 9.76453Z" fill="#EA4335"/>
@@ -207,9 +207,9 @@ export default function FormRegLog({ route, method }) {
                     </div>
                     <div className="mt-6 text-center">
                         {method === "login" ? (
-                            <p className="text-gray-400">Don't have an account? <button onClick={() => navigate('/register')} className="text-purple-500 hover:underline">Sign up</button></p>
+                            <p className="text-black">Don't have an account? <button onClick={() => navigate('/register')} className="text-blue-500 hover:underline">Sign up</button></p>
                         ) : (
-                            <p className="text-gray-400">Already have an account? <button onClick={() => navigate('/login')} className="text-purple-500 hover:underline">Login</button></p>
+                            <p className="text-black">Already have an account? <button onClick={() => navigate('/login')} className="text-blue-500 hover:underline">Login</button></p>
                         )}
                     </div>
                 </form>

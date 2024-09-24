@@ -68,7 +68,7 @@ const Explore = () => {
                 username={post.user.username}
                 postImage={post.image}
                 postText={post.text}
-                likeCount={post.likes}
+                likeCount={post.likes.length}
                 postDate={date} // Pass formatted date
                 postTime={time} // Pass formatted time
                 comments={post.comments}
